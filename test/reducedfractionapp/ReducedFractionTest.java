@@ -35,6 +35,8 @@ class ReducedFractionTest {
      * 6. Проверяется, что дробь со знаменателем 1 выводится как целое число в виде 4/1.
      */
 
+    /* ======================= Тестирование операций сложения ======================= */
+
     @Test
     public void testAdditionSameDenominator() {
         ReducedFraction fraction1 = new ReducedFraction(1, 3);
@@ -50,16 +52,25 @@ class ReducedFractionTest {
         ReducedFraction fraction2 = new ReducedFraction(1, 3);
         ReducedFraction expected = new ReducedFraction(5, 6);
         ReducedFraction result = fraction1.addition(fraction2);
-        assertEquals(expected, result); 
+        assertEquals(expected, result);
     }
 
     @Test
-    public void testAdditionWholeNumber() {
-        ReducedFraction fraction1 = new ReducedFraction(1, 1);
-        ReducedFraction fraction2 = new ReducedFraction(3, 4);
+    public void testAdditionWholeNumberWithFraction() {
+        ReducedFraction fraction = new ReducedFraction(3, 4);
+        int wholeNumber = 1;
         ReducedFraction expected = new ReducedFraction(7, 4);
-        ReducedFraction result = fraction1.addition(fraction2);
-        assertEquals(expected, result); 
+        ReducedFraction result = fraction.addition(wholeNumber);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void testAdditionFractionWithWholeNumber() {
+        int wholeNumber = 2;
+        ReducedFraction fraction = new ReducedFraction(1, 3);
+        ReducedFraction expected = new ReducedFraction(7, 3);
+        ReducedFraction result = fraction.addition(wholeNumber);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -68,16 +79,16 @@ class ReducedFractionTest {
         ReducedFraction fraction2 = new ReducedFraction(-2, 3);
         ReducedFraction expected = new ReducedFraction(-1, 1);
         ReducedFraction result = fraction1.addition(fraction2);
-        assertEquals(expected, result); 
+        assertEquals(expected, result);
     }
 
     @Test
     public void testAdditionWithZero() {
-        ReducedFraction fraction1 = new ReducedFraction(3, 4);
-        ReducedFraction fraction2 = new ReducedFraction(0, 1);
+        ReducedFraction fraction = new ReducedFraction(3, 4);
+        int zero = 0;
         ReducedFraction expected = new ReducedFraction(3, 4);
-        ReducedFraction result = fraction1.addition(fraction2);
-        assertEquals(expected, result); 
+        ReducedFraction result = fraction.addition(zero);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -86,7 +97,7 @@ class ReducedFractionTest {
         ReducedFraction fraction2 = new ReducedFraction(2, 4);
         ReducedFraction expected = new ReducedFraction(1, 1);
         ReducedFraction result = fraction1.addition(fraction2);
-        assertEquals(expected, result); 
+        assertEquals(expected, result);
     }
 
     @Test
@@ -95,8 +106,10 @@ class ReducedFractionTest {
         ReducedFraction fraction2 = new ReducedFraction(1, 3);
         ReducedFraction expected = new ReducedFraction(0, 1);
         ReducedFraction result = fraction1.addition(fraction2);
-        assertEquals(expected, result); 
+        assertEquals(expected, result);
     }
+
+    /* ======================= Тестирование эквивалентности ======================= */
 
     @Test
     public void testEqualsSameFraction() {
@@ -146,6 +159,8 @@ class ReducedFractionTest {
         Object notAFraction = new Object();
         assertNotEquals(fraction1, notAFraction);
     }
+
+    /* ======================= Тестирование строкового представления ======================= */
 
     @Test
     public void testToStringBasicFraction() {
