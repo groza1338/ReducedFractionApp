@@ -5,8 +5,6 @@
  */
 package reducedfractionapp;
 
-import java.util.Scanner;
-
 /**
  *
  * @author Groza1337
@@ -17,20 +15,26 @@ public class ReducedFractionApp {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Введите числитель для 1 дроби: ");
-        int numerator1 = sc.nextInt();
-        sc.nextLine();
-        System.out.print("Введите знаменатель для 1 дроби: ");
-        String denominatorInput1 = sc.nextLine();
-        int denominator1 = denominatorInput1.isEmpty() ? 1 : Integer.parseInt(denominatorInput1);
-        System.out.print("Введите числитель для 2 дроби: ");
-        int numerator2 = sc.nextInt();
-        sc.nextLine();
-        System.out.print("Введите знаменатель для 2 дроби: ");
-        String denominatorInput2 = sc.nextLine();
-        int denominator2 = denominatorInput2.isEmpty() ? 1 : Integer.parseInt(denominatorInput2);
+//        Scanner sc = new Scanner(System.in);
+//        System.out.print("Введите числитель для 1 дроби: ");
+//        int numerator1 = sc.nextInt();
+//        sc.nextLine();
+//        System.out.print("Введите знаменатель для 1 дроби: ");
+//        String denominatorInput1 = sc.nextLine();
+//        int denominator1 = denominatorInput1.isEmpty() ? 1 : Integer.parseInt(denominatorInput1);
+//        System.out.print("Введите числитель для 2 дроби: ");
+//        int numerator2 = sc.nextInt();
+//        sc.nextLine();
+//        System.out.print("Введите знаменатель для 2 дроби: ");
+//        String denominatorInput2 = sc.nextLine();
+//        int denominator2 = denominatorInput2.isEmpty() ? 1 : Integer.parseInt(denominatorInput2);
 
+
+        int numerator1 = -1;
+        int denominator1 = 4;
+
+        int numerator2 = 4;
+        int denominator2 = -7;
 
         ReducedFraction reducedFraction1 = new ReducedFraction(numerator1, denominator1);
         ReducedFraction reducedFraction2 = new ReducedFraction(numerator2, denominator2);
@@ -43,6 +47,7 @@ public class ReducedFractionApp {
         System.out.print("Вторая дробь: ");
         System.out.println(reducedFraction2);
 
+        System.out.println(reducedFraction1.addition(numerator2).toFloat());
 
         ReducedFraction sum = reducedFraction1.addition(reducedFraction2);
         System.out.println();
@@ -76,12 +81,16 @@ public class ReducedFractionApp {
                         reducedFraction2 +
                         " = " + division);
 
-        Compare compare = reducedFraction1.comparing(reducedFraction2);
+        Integer compare = reducedFraction1.compare(reducedFraction2);
         System.out.println();
         System.out.println("Сравнение дробей:");
-        System.out.println(
-                reducedFraction1 + " " + compare +
-                        " " + reducedFraction2);
+        if (compare == 0) {
+            System.out.println(reducedFraction1 + " == " + reducedFraction2);
+        } else if (compare < 0) {
+            System.out.println(reducedFraction1 + " < " + reducedFraction2);
+        } else {
+            System.out.println(reducedFraction1 + " > " + reducedFraction2);
+        }
 
         boolean equals = reducedFraction1.equals(reducedFraction2);
         System.out.println();
@@ -96,5 +105,5 @@ public class ReducedFractionApp {
         System.out.println(reducedFraction1 + " = " + reducedFraction1.toFloat());
         System.out.println(reducedFraction2 + " = " + reducedFraction2.toFloat());
     }
-    
+
 }

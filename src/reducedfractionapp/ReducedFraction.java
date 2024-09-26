@@ -46,8 +46,15 @@ public final class ReducedFraction {
         this.numerator = denominator < 0 ? -numerator/gcd : numerator/gcd;
         this.denominator = denominator < 0 ? -denominator/gcd : denominator/gcd;
     }
-    
-  
+
+    /** Создание дроби с указанием только числителя
+     * @param numerator числитель
+     */
+    public ReducedFraction(int numerator) {
+        this.numerator = numerator;
+        this.denominator = 1;
+    }
+
     /* --------------------- Арифметические операции ---------------------- */
     
     /** Сложение двух дробей.
@@ -55,6 +62,15 @@ public final class ReducedFraction {
      * @return сумма двух дробей
      */
     public ReducedFraction addition(ReducedFraction other) {
+        return addFractions(other);
+    }
+
+    /** Сложение двух дробей
+     *
+     * @param other другая дробь
+     * @return сумма двух дробей
+     */
+    private ReducedFraction addFractions(ReducedFraction other) {
         if (this.denominator == other.denominator) {
             return new ReducedFraction(this.numerator + other.numerator, this.denominator);
         } else {
@@ -67,11 +83,25 @@ public final class ReducedFraction {
         }
     }
 
+    /** Сложение дроби и Int
+     *
+     * @param other число
+     * @return сумма
+     */
+    public ReducedFraction addition(Integer other) {
+        ReducedFraction otherFraction = new ReducedFraction(other);
+        return addFractions(otherFraction);
+    }
+
     /** Вычитание двух дробей.
      * @param other вторая дробь
      * @return разница двух дробей
      */
     public ReducedFraction subtraction(ReducedFraction other) {
+        return subtractFraction(other);
+    }
+
+    private ReducedFraction subtractFraction(ReducedFraction other) {
         if (this.denominator == other.denominator) {
             return new ReducedFraction(this.numerator - other.numerator, this.denominator);
         } else {
@@ -84,12 +114,22 @@ public final class ReducedFraction {
         }
     }
 
+    public ReducedFraction subtraction(Integer other) {
+        ReducedFraction otherFraction = new ReducedFraction(other);
+        return subtractFraction(otherFraction);
+    }
+
     /** Умножение двух дробей.
      * @param other вторая дробь
      * @return произведение двух дробей
      */
     public ReducedFraction multiplication(ReducedFraction other) {
         return new ReducedFraction(this.numerator * other.numerator, this.denominator * other.denominator);
+    }
+
+    public ReducedFraction multiplication(Integer other) {
+        ReducedFraction otherFraction = new ReducedFraction(other);
+        return new ReducedFraction(this.numerator * otherFraction.numerator, this.denominator * otherFraction.denominator);
     }
     
     /** Деление двух дробей.
@@ -103,6 +143,14 @@ public final class ReducedFraction {
         return new ReducedFraction(this.numerator * other.denominator, this.denominator * other.numerator);
     }
 
+    public ReducedFraction division(Integer other) {
+        ReducedFraction otherFraction = new ReducedFraction(other);
+        if (otherFraction.numerator == 0) {
+            throw new IllegalArgumentException("Cannot divide by fraction with zero numerator");
+        }
+        return new ReducedFraction(this.numerator * otherFraction.denominator, this.denominator * otherFraction.numerator);
+    }
+
 
     /* --------------------- Операции сравнения ---------------------- */
 
@@ -110,16 +158,25 @@ public final class ReducedFraction {
      * @param other вторая дробь
      * @return Bigger, Smaller, Equals
      */
-    public Compare comparing(ReducedFraction other) {
-        int thisValue = this.numerator * other.denominator;
-        int otherValue = other.numerator * this.denominator;
+    public Integer compare(ReducedFraction other) {
+        return compareFraction(other);
+    }
+
+    public Integer compare(Integer other) {
+        ReducedFraction otherFraction = new ReducedFraction(other);
+        return compareFraction(otherFraction);
+    }
+
+    private Integer compareFraction(ReducedFraction otherFraction) {
+        int thisValue = this.numerator * otherFraction.denominator;
+        int otherValue = otherFraction.numerator * this.denominator;
 
         if (thisValue == otherValue) {
-            return Compare.Equal;
+            return 0;
         }
-        return thisValue < otherValue ? Compare.Smaller : Compare.Bigger;
+        return thisValue < otherValue ? -1 : 1;
     }
-    
+
     /** Эквивалентность двух дробей.
     * @param other вторая объект
      * @return эквиваленты ли объекты
@@ -130,7 +187,7 @@ public final class ReducedFraction {
             return false;
         }
 
-        return this.comparing((ReducedFraction) other) == Compare.Equal;
+        return this.compare((ReducedFraction) other) == 0;
     }
 
     
